@@ -1,0 +1,12 @@
+
+gradlew
+gradlew.bat
+.gradle
+gradle
+
+.idea
+.vscode
+
+build
+out
+
