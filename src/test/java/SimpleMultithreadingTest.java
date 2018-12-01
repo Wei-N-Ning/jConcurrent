@@ -50,7 +50,9 @@
 // once a thread is inside a synchronised method, no other thread
 // can call any other synchronised method on the same object.
 
-public class SimpleMultithreading {
+import junit.framework.TestCase;
+
+public class SimpleMultithreadingTest extends TestCase {
 
     private void verify(boolean expr, String msg) {
         if (!expr) {
@@ -59,7 +61,7 @@ public class SimpleMultithreading {
         }
     }
 
-    private void testGetCurrentThread() {
+    public void testGetCurrentThread() {
         // java reference 9th
         // P237/272
 
@@ -70,7 +72,7 @@ public class SimpleMultithreading {
             "set/get thread name");
     }
 
-    private void testThreadSleep() {
+    public void testThreadSleep() {
         // NOTE that use of try-catch
         // sleep() takes milliseconds
         // sleep() method in Thread might throw an InterruptedExecption,
@@ -90,7 +92,7 @@ public class SimpleMultithreading {
         }
     }
 
-    private void testThreadCreation() {
+    public void testThreadCreation() {
         // java defines two ways to create a thread
 
         // > implement the Runnable interface
@@ -135,7 +137,7 @@ public class SimpleMultithreading {
         verify(wth.result == 11, "worker #2 result");
     }
 
-    private void testSynchronizedMethod() {
+    public void testSynchronizedMethod() {
         // java reference 9th P249/284
         // to serialize access to xxx() method, you must
         // restrict its access to only one thread at a time,
@@ -184,7 +186,7 @@ public class SimpleMultithreading {
         System.out.println("" + variables[0]);
     }
 
-    private void testSynchronizedStatement() {
+    public void testSynchronizedStatement() {
         // P249/284
         // when using a third party class that is not thread safe,
 
@@ -201,7 +203,7 @@ public class SimpleMultithreading {
         // synchronized keyword
     }
 
-    private void spuriousWakeup() {
+    public void testPreventSpuriousWakeup() {
         // P251/286
         // oracle recommends that calls to wait() should take
         // place within a loop that checks the condition on which
@@ -267,15 +269,5 @@ public class SimpleMultithreading {
         Q queue = new Q();
         new Producer(queue);
         new Consumer(queue);
-    }
-
-    public static void main(String[] args) {
-        SimpleMultithreading prog = new SimpleMultithreading();
-        prog.testGetCurrentThread();
-        prog.testThreadSleep();
-        prog.testThreadCreation();
-        prog.testSynchronizedMethod();
-        prog.testSynchronizedStatement();
-        prog.spuriousWakeup();
     }
 }
