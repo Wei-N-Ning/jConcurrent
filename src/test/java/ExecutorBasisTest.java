@@ -73,6 +73,7 @@ public class ExecutorBasisTest extends TestCase {
             e.printStackTrace();
         }
 
+        pool.shutdown();
         al.forEach(System.out::println);
     }
 }
