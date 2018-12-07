@@ -32,11 +32,48 @@ public class CountDownLatchBasisTest extends TestCase {
         assertFalse(flag);
     }
 
-    public void testDoCountDown() {
-        Thread t = new Thread(
+    // P925/960 example
+    public void testDemoCountDownLatch() {
+        CountDownLatch[] latch = {new CountDownLatch(3)};
+        int[] result = {0};
+
+        Thread workThread = new Thread(
             () -> {
-                return;
+                try {
+                    latch[0].await();
+                }
+                catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                result[0] = 101;
             }
         );
+        workThread.start();
+
+        Thread countThread = new Thread(
+            () -> {
+                try {
+                    Thread.sleep(10);
+                }
+                catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                latch[0].countDown();
+                latch[0].countDown();
+                latch[0].countDown();
+            }
+        );
+        countThread.start();
+
+        try {
+            countThread.join();
+            workThread.join();
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        assertEquals(101, result[0]);
     }
+
 }
